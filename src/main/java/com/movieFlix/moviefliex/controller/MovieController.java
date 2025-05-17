@@ -57,7 +57,7 @@ public interface MovieController {
             security = @SecurityRequirement(name = "bearerAuth")) //security*bearerAuth
     @ApiResponse(responseCode = "204", description = "Filme deletado com sucesso", content = @Content())
     @ApiResponse(responseCode = "404", description = "Filme nao encontrado", content = @Content())
-    ResponseEntity<List<MovieResponse>> delete(@PathVariable Long id);
+    ResponseEntity<Void> delete(@PathVariable Long id);
 
 
 

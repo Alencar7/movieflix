@@ -5,12 +5,6 @@ import com.movieFlix.moviefliex.controller.response.MovieResponse;
 import com.movieFlix.moviefliex.entity.Movie;
 import com.movieFlix.moviefliex.mapper.MovieMapper;
 import com.movieFlix.moviefliex.service.MovieService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.ArraySchema;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -66,7 +60,7 @@ public class MovieControllerImpl implements MovieController{
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<List<MovieResponse>> delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         Optional<Movie> optionalMovie = movieService.findById(id);
         if (optionalMovie.isPresent()) {
             movieService.delete(id);

@@ -1,66 +1,49 @@
 package com.movieFlix.moviefliex.controller;
 
 import com.movieFlix.moviefliex.controller.request.StreamingRequest;
-import com.movieFlix.moviefliex.controller.response.MovieResponse;
+import com.movieFlix.moviefliex.controller.response.CategoryResponse;
 import com.movieFlix.moviefliex.controller.response.StreamingResponse;
-import com.movieFlix.moviefliex.entity.Streaming;
-import com.movieFlix.moviefliex.mapper.StreamingMapper;
-import com.movieFlix.moviefliex.service.StreamingService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
-@RequestMapping("/movieflix/streaming")
-@RequiredArgsConstructor
-//@Tag(name = "Streaming", description = "")
-public class StreamingController {
+@Tag(name = "Streaming", description = "Recurso responsavel pelo gerenciamento da streaming.")
+public interface StreamingController {
 
-    private final StreamingService streamingService;
+    //annotation
+    @Operation(summary = "Salvar streamings", description = "Método responsável por realizar o salvamento de uma nova streaming.",
+            security = @SecurityRequirement(name = "bearerAuth")) //security
+    @ApiResponse(responseCode = "201", description = "Streaming salva com sucesso",
+            content = @Content(schema = @Schema(implementation = StreamingResponse.class)))
+    ResponseEntity<StreamingResponse> save(@Valid @RequestBody StreamingRequest request);
 
-//    //annotations
-//    @Operation(summary = "Salvar filme", description = "Método responsável por realizar o salvamento de um novo filme.")
-//    @ApiResponse(responseCode = "201", description = "Filme salvo com sucesso",
-//            content = @Content(schema = @Schema(implementation = MovieResponse.class)))
-//    @PostMapping
-    @GetMapping
-    public ResponseEntity<List<StreamingResponse>> getAll() {
-        List<StreamingResponse> streamings = streamingService.findAll()
-                .stream()
-                .map(StreamingMapper::toStreamingResponse)
-                .toList();
+    @Operation(summary = "Buscar streamings", description = "Método responsável por buscar streamings.",
+            security = @SecurityRequirement(name = "bearerAuth")) //security*bearerAuth
+    @ApiResponse(responseCode = "200", description = "Streamings encontradas com sucesso",
+            content = @Content(array = @ArraySchema(schema = @Schema(implementation = StreamingResponse.class))))
+    ResponseEntity<List<StreamingResponse>> getAll();
 
-        return ResponseEntity.ok(streamings);
-    }
+    @Operation(summary = "Buscar streaming por ID", description = "Método responsável por buscar streamings por ID.",
+            security = @SecurityRequirement(name = "bearerAuth")) //security*bearerAuth
+    @ApiResponse(responseCode = "200", description = "Streaming encontrada com sucesso",
+            content = @Content(schema = @Schema(implementation = StreamingResponse.class)))
+    @ApiResponse(responseCode = "404", description = "Streaming nao encontrada",
+            content = @Content())
+    ResponseEntity<StreamingResponse> getById(@PathVariable Long id);
 
-    @PostMapping
-    public ResponseEntity<StreamingResponse> save(@Valid @RequestBody StreamingRequest request) {
-        Streaming savedStreaming = streamingService.save(StreamingMapper.toStreaming(request));
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(StreamingMapper.toStreamingResponse(savedStreaming));
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<StreamingResponse> getById(@PathVariable Long id) {
-        return streamingService.findById(id)
-                .map(streaming -> ResponseEntity.ok(StreamingMapper.toStreamingResponse(streaming)))
-                .orElse(ResponseEntity.notFound().build());
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
-        streamingService.delete(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-    }
-
+    @Operation(summary = "Deletar streaming por ID", description = "Método responsável por deletar streaming por ID.",
+            security = @SecurityRequirement(name = "bearerAuth")) //security*bearerAuth
+    @ApiResponse(responseCode = "204", description = "Streaming deletada com sucesso", content = @Content())
+    @ApiResponse(responseCode = "404", description = "Streaming nao encontrada", content = @Content())
+    ResponseEntity<Void> deleteById(@PathVariable Long id);
 
 }
