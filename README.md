@@ -1,9 +1,9 @@
 # MovieFlix API
-##Descrição
+## Descrição
 MovieFlix é uma API RESTful desenvolvida em Java com Spring Boot, projetada para gerenciar um catálogo de filmes e categorias. A aplicação permite operações como listar filmes, gerenciar categorias e, futuramente, integrar autenticação de usuários. Inicialmente, utiliza mocks para simulação de dados, com planos para integração com um banco de dados real (ex.: MySQL ou PostgreSQL).
 O layout da aplicação é baseado em um protótipo desenvolvido no Figma, que guia a estrutura visual e funcional do projeto.
 
-##Tecnologias Utilizadas
+## Tecnologias Utilizadas
 Java 17: Linguagem principal do projeto.
 
 Spring Boot: Framework para construção da API.
