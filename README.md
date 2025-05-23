@@ -26,31 +26,34 @@ Maven instalado.
 Opcional: Docker e Docker Compose para containerização.
 
 Clonar o Repositório:
-'''bash
-
+```
+bash
 git clone https://github.com/Alencar7/movieflix.git
-cd movieflix '''
-
+cd movieflix
+``` 
 Compilar e Gerar o JAR:
-'''bash
+```
+bash
 
-mvn clean package'''
-
+mvn clean package
+``` 
 Executar a Aplicação:
-''' bash
+``` bash
 
-java -jar target/movieflix-0.0.1-SNAPSHOT.jar'''
-
+java -jar target/movieflix-0.0.1-SNAPSHOT.jar
+``` 
 ## Acessar a Documentação:
 Acesse a UI do Swagger em: http://localhost:8080/swagger-ui.html
 
 Documentação OpenAPI: http://localhost:8080/api/api-docs
 
 ## Executar com Docker (se aplicável):
-'''bash
+```
+bash
 
 docker build -t movieflix-api .
-docker run -p 8080:8080 movieflix-api'''
+docker run -p 8080:8080 movieflix-api
+``` 
 
 ## Estrutura do Projeto
 src/main/java: Contém o código-fonte da aplicação, incluindo controladores (MovieController, CategoryController), serviços e mappers.
